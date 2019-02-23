@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">BLUnlocker</string>
+    <string name="cancel">Cancel</string>
+    <string name="canceled_by_user">Canceled by user</string>
+    <string name="recovery">Recovery</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="bootloader">Bootloader</string>
+    <string name="ok">Ok</string>
+    <string name="su_file_not_found">Can not find \"su\" binary file.\nYou have not root permission.\n</string>
+    <string name="press_ok_to_recovery">Press \"Ok\" to reboot Recovery.</string>
+    <string name="unlock_bootloader">Unlock\nBootloader</string>
+    <string name="lock_bootloader">Lock\nBootloader</string>
+    <string name="unlock_bootloader_title">Do you want unlock bootloader?</string>
+    <string name="unlock_bootloader_message"><b>All user data will be lost.</b>\nAfter Unlock Bootloader,you must format \"Data\" Partition.\nIn Flyme recovery press Vol+ 5 times and then Vol- 5 times.\nIf you have TWRP,\ngo to \"Wipe\" and press \n\"Format Data\"</string>
+    <string name="unlock_bootloader_complete">Bootloader was unlocked!</string>
+    <string name="lock_bootloader_message"><b>All user data will be lost.</b>\nAfter Lock Bootloader,you must format \"Data\" Partition and \nflash Flyme firmware.\nFlyme Recovery will be restored.\nIn Flyme recovery \npress Vol+ 5 times \nand then Vol- 5 times\n for format \"Data\" .</string>
+    <string name="lock_bootloader_complete">Bootloader was locked!</string>
+    <string name="lock_bootloader_title">Do you want lock bootloader?</string>
+    <string name="install_twrp">Install TWRP Recovery</string>
+
+</resources>
+
