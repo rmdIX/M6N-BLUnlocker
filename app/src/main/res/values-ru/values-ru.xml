@@ -19,8 +19,6 @@
     <string name="lock_bootloader_complete">Загрузчик заблокирован!</string>
     <string name="lock_bootloader_title">Вы хотите заблокировать загрузчик??</string>
     <string name="install_twrp">Установить TWRP Recovery</string>
-
-
-
+    <string name="wait">Пожалуйста подождите</string>
 
 </resources>

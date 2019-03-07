@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.locks.Lock;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -214,40 +215,24 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.setTitle(R.string.unlock_bootloader_title);
         alertDialog.setMessage(R.string.unlock_bootloader_message);
 
+
         View checkBoxView = View.inflate(this, R.layout.checkbox, null);
         final CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.checkbox);
         checkBox.setText(R.string.install_twrp);
         alertDialog.setView(checkBoxView);
         checkBox.setChecked(true);
-        final AlertDialog.Builder rest = new AlertDialog.Builder(this);
-        rest.setTitle(R.string.unlock_bootloader_complete);
-        rest.setMessage(R.string.press_ok_to_recovery);
-        rest.setCancelable(false);
-        rest.setPositiveButton(R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        sudo("reboot recovery");
-                    }
-                });
-        final AlertDialog alert = rest.create();
         // Обработчик на нажатие ДА
         alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
-                sudo("mount -o rw,remount /dev");
-                sudo("dd if=" + Environment.getExternalStorageDirectory() + "/Android/data/com.ramdolpix.bootunlocker/files/bl_unlocked of=/dev/block/bootdevice/by-name/devinfo");
+                UnlockProcess ubp = new UnlockProcess(MainActivity.this);
+                TWRPFlashing ubptwrp = new TWRPFlashing(MainActivity.this);
                 if (checkBox.isChecked()){
-                    sudo("mount -o rw,remount /system");
-                    sudo("dd if=" + Environment.getExternalStorageDirectory() + "/Android/data/com.ramdolpix.bootunlocker/files/twrp_unlocked.img of=/dev/block/bootdevice/by-name/recovery");
-                    sudo("rm -rf /system/recovery-from-boot.p");
-                    sudo("rm -rf /system/wlfx0recovery-from-boot.bak0xwlf");
-                    sudo("rm -rf /system/bin/wlfx0install-recoverybak0xwlf");
-                    sudo("rm -rf /system/bin/install-recovery.sh");
-                    sudo("rm -rf /system/etc/install-recovery.sh");
-                    sudo("rm -rf /system/etc/install-recovery.sh");
-                    sudo("rm -rf /system/vendor/bin/install-recovery.sh");
+                    ubptwrp.execute();
+                }
+                if(!checkBox.isChecked()){
+                    ubp.execute();
                 }
 
-                rest.show();
             }
         });
         alertDialog.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -267,25 +252,12 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.setTitle(R.string.lock_bootloader_title);
         alertDialog.setMessage(R.string.lock_bootloader_message);
 
-        final AlertDialog.Builder rest = new AlertDialog.Builder(this);
-        rest.setTitle(R.string.lock_bootloader_complete);
-        rest.setMessage(R.string.press_ok_to_recovery);
-        rest.setCancelable(false);
-        rest.setPositiveButton(R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        sudo("reboot recovery");
-                    }
-                });
-        final AlertDialog alert = rest.create();
+        final LockProcess blp = new LockProcess(MainActivity.this);
 
         // Обработчик на нажатие ДА
         alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
-                sudo("mount -o rw,remount /dev");
-                sudo("dd if=" + Environment.getExternalStorageDirectory() + "/Android/data/com.ramdolpix.bootunlocker/files/bl_locked of=/dev/block/bootdevice/by-name/devinfo");
-                sudo("dd if=" + Environment.getExternalStorageDirectory() + "/Android/data/com.ramdolpix.bootunlocker/files/stock.img of=/dev/block/bootdevice/by-name/recovery");
-                rest.show();
+                blp.execute();
             }
         });
         alertDialog.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
